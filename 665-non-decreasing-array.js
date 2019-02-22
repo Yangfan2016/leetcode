@@ -3,36 +3,20 @@
  * @return {boolean}
  */
 var checkPossibility = function (nums) {
-    let list = nums.map((num, index) => {
-        let next = nums[index + 1] || num;
-        return next - num;
-    });
-    let negativeList = list.filter(item => item < 0);
-    let len = negativeList.length;
-    // 没有负数
-    if (len === 0) return true;
-    // 大于1个负数
-    if (len > 1) return false;
-    // 只有一个负数
-    if (len === 1) {
-        let indexOfNegative = list.findIndex(item => item < 0);
-        if (indexOfNegative === 0) { // 是否是第一个元素
-            return true;
-        } else {
-            let prev = nums[indexOfNegative - 1];
-            let next = nums[indexOfNegative + 1];
-            if (prev > next) {
-                return false;
-            }
-        }
-    }
+    let count=0;
+    for(let i=0,len=nums.length;i<len;i++){
+       let cur=nums[i];
+       let next=nums[i+1];
+       let prev=nums[i-1];
 
+       if (cur>next) { // 如果当前值大于下一个值吗，说明逆序了
+          count++; // 标记增加
+          if (count>1) return false; // 如果标记的逆序次数大于1，那么则条件失败
+          if (i>=1 && prev>next) { // 如果前一个值大于下一个值，那么将把当前值赋给下一个值，保持非递减
+             nums[i+1]=cur;
+          }
+       }
+    }
     return true;
 };
 
-
-// example
-
-var input = [1, 4, 3, 3]; // [4,2,1]
-
-console.log(checkPossibility(input));
