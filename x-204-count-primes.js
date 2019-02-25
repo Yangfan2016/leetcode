@@ -37,6 +37,7 @@ var countPrimes = function(n) {
         );
     }
 
+    // n*m
     nums = nums.map(num=>{
         list.filter(l=>num > l).forEach(m=>{
             if (num % m === 0) {
