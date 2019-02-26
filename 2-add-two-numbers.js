@@ -10,58 +10,32 @@
  * @param {ListNode} l2
  * @return {ListNode}
  */
-var addTwoNumbers = function(l1, l2) {
-    // {val:2,next:{val:4,next:{val:3,next:null}}}
-    // {val:5,next:{val:6,next:{val:4,next:null}}}
+var addTwoNumbers = function (l1, l2) {
+    if (!l1) return l2;
+    if (!l2) return l1;
 
-    let curLeft = l1;
-    let curRight = l2;
-    let res = new ListNode(0);
-    let head = res;
-    while (curLeft.next) {
-        let n1 = curLeft.val;
-        let n2 = curRight.val;
 
-        res.next = res.next || new ListNode(0);
+    let m = new ListNode;
+    let head = m;
+    let carry = 0; // 进位
 
-        // 满 10 进 1
-        let sum = n1 + n2;
-        if (sum >= 10) {
+    while (l1 || l2 || carry) { // 两个链表长度可能不一致，需要走完较长的那个链表，或者 还有需要进位的，还需要再循环一次
+        let sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry; // 两数之和再加上之前的进位
 
-            res.next.val = res.next.val + 1;
-            res.val = sum - 10;
-
-            curLeft.next=new ListNode(0);
+        if (sum / 10 >= 1) { // 满 10 进 1
+            carry = 1;
+            sum -= 10; // 当前位需要砍去溢出的部分
         } else {
-            res.val += sum;
+            carry = 0;
         }
-        curLeft = curLeft.next;
-        curRight = curRight.next;
-        res = res.next;
+
+        m.next = new ListNode(sum); // label:1 将结果保存到下一个节点上 
+
+        m = m.next;
+
+        if (l1) l1 = l1.next;
+        if (l2) l2 = l2.next;
     }
 
-    return head;
+    return head.next; // 因为 label:1 所以返回的指针指向下一个节点
 };
-
-// listnode
-
-function ListNode(val) {
-    this.val = val;
-    this.next = null;
-}
-
-var n1 = new ListNode(2);
-var n2 = new ListNode(4);
-var n3 = new ListNode(3);
-
-n1.next = n2;
-n2.next = n3;
-
-var m1 = new ListNode(5);
-var m2 = new ListNode(6);
-var m3 = new ListNode(4);
-
-m1.next = m2;
-m2.next = m3;
-
-addTwoNumbers(n1, m1);
