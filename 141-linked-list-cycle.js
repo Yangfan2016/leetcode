@@ -11,7 +11,7 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    // 快慢指针相遇即为又环存在
+    // 快慢指针相遇即认为有环存在
 
     if (!head) return false;
     if (!head.next) return false;
