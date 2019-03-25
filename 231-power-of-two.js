@@ -11,5 +11,5 @@ var isPowerOfTwo = function(n) {
     // 011  3
     // 100  4
     // 000
-    return (n&(n-1))==0;
+    return (n&(n-1))===0;
 };
