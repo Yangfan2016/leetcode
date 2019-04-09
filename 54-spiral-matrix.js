@@ -58,3 +58,42 @@ var spiralOrder = function (matrix) {
     return res;
 
 };
+
+
+// 方法2 递归
+var spiralOrder2 = function (matrix) {
+    let m = matrix.length;
+    // 空数组
+    if (m === 0) return [];
+
+    let n = matrix[0].length;
+    // 子数组为空数组
+    if (n === 0) return [];
+
+    return function traverse(arr, res) {
+
+        // 存入首行
+        if (arr.length > 0) res = res.concat(arr.shift());
+        // 存入右侧
+        if (arr.length > 0) {
+            for (let i = 0; i < arr.length - 1; i++) {
+                if (arr[i].length === 0) continue;
+                res.push(arr[i].pop()); // 把中间的每行的最后一个元素存入
+            }
+        }
+        // 存入尾行
+        if (arr.length > 0) res = res.concat(arr.pop().reverse());
+        // 存入左侧
+        if (arr.length > 0) {
+            for (let i = arr.length - 1; i >= 0; i--) {
+                if (arr[i].length === 0) continue;
+                res.push(arr[i].shift()); // 把中间的每行的第一个元素存入
+            }
+        }
+        // 下一次循环
+        if (arr.length > 0) return traverse(arr, res);
+
+        return res;
+    }(matrix.slice(0), []);
+};
+
