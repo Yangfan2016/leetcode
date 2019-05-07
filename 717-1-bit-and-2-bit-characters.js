@@ -9,7 +9,7 @@ var isOneBitCharacter = function (bits) {
 
     for (let i = 0; i < len; i++) {
         let item = bits[i];
-        if (item === 1) { // 如果是 1 ，则将本元素和前一位元素 “配对”
+        if (item === 1) { // 如果是 1 ，则将本元素和后一位元素 “配对”
             bits[i] = -1;
             bits[i + 1] = -1;
         }
