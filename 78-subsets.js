@@ -82,3 +82,46 @@ var subsets2 = function (nums) {
 
     return result;
 };
+
+/**
+ * 
+ * [1]
+ * 
+ * [1,2]
+ * [2]
+ * 
+ * [1,3]
+ * [1,2,3]
+ * [2,3]
+ * [3]
+ * 
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets3 = function (nums) {
+    if (nums.length === 0)
+        return [[]];
+    if (nums.length === 1)
+        return [[], nums];
+    if (nums.length === 2)
+        return [[], nums, [nums[0]], [nums[1]]];
+
+    let len = nums.length;
+    let result = [];
+
+
+    for (let i = 0; i < len; i++) {
+        let cur = nums[i];
+        let l2 = result.length;
+        for (let j = 0; j < l2; j++) {
+            // 将已有结果和当前元素组成新的子集
+            result.push(result[j].concat(cur));
+        }
+        // 将当前元素作为新子集存入结果集中
+        result.push([cur]);
+    }
+
+    result.push([]);
+
+    return result;
+};
