@@ -3,15 +3,28 @@
  * @return {string}
  */
 var toLowerCase = function (str) {
-    let dis = 32; // 97-65
-    let start = 65;
-    let end = 90;
-    let list = str.split("");
-    return list.reduce((prev, char) => {
-        let code = char.charCodeAt(0);
-        if (start <= code && code <= end) {
-            code += dis;
-        }
-        return prev + String.fromCharCode(code);
-    }, "");
+    if (str.trim() === "")
+        return str;
+
+    // 生成字母字典
+    let map = {};
+
+    let code = 65;
+    let index = 0;
+
+    while (index < 26) {
+        let codeSmall = code + 32;
+        map[String.fromCharCode(code)] = String.fromCharCode(codeSmall);
+        code++;
+        index++;
+    }
+
+    let len = str.length;
+    let arr = [];
+
+    for (let i = 0; i < len; i++) {
+        let c = str[i];
+        arr[i] = map[c] || c;
+    }
+    return arr.join("");
 };
