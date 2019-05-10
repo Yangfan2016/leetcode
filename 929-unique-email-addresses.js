@@ -3,24 +3,44 @@
  * @return {number}
  */
 var numUniqueEmails = function (emails) {
-    let list = [];
+    let len = emails.length;
+    let s = new Set;
 
-    emails.forEach(em => {
-        let flag = em.indexOf("@");
-        let localName = em.slice(0, flag);
-        let domainName = em.slice(flag + 1);
+    for (let i = 0; i < len; i++) {
+        let em = emails[i];
+        let len2 = em.length;
+        let at = -1;
+        let str = "";
+        let after = "";
+        let before = "";
 
-        // 去除本地名称的所有 ‘.’ 符号
-        localName = localName.replace(/\./g, '');
-        // 去除本地名称的 ‘+’ 及之后的字符
-        let flagPlus = localName.indexOf("+");
-        if (flagPlus !== -1) {
-            localName = localName.slice(0, flagPlus);
+        // 找到 "@" 符号位置
+        for (let j = 0; j < len2; j++) {
+            let char = em[j];
+
+            if (char === "@") {
+                at = j;
+                break;
+            }
         }
-        let nEmail = localName + domainName;
-        if (!list.includes(nEmail)) {
-            list.push(nEmail);
+
+        after = em.substring(at);
+
+        // 去除 "@" 符号之前（如果遇到 "+"，则退出）的 "." 符号
+        for (let j = 0; j < at; j++) {
+            let char = em[j];
+            if (char === ".") {
+                continue;
+            }
+            if (char === "+") {
+                break;
+            }
+            before += char;
         }
-    });
-    return list.length;
+
+        str = before + after;
+        s.add(str);
+    }
+    return s.size;
+
 };
